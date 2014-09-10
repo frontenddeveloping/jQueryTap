@@ -1,0 +1,129 @@
+* {
+    padding:0;
+    margin:0;
+}
+
+body {
+    font:12px/18px sans-serif;
+    color:#444;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+a {
+    color:#fff;
+    text-decoration: none;
+}
+
+.container {
+    padding:20px;
+}
+
+.page-test-area {
+    color:#fff
+}
+
+.page-controls {
+    padding:5px;
+    border:1px solid #888;
+    width:200px;
+    text-align:center;
+    margin-bottom:20px;
+    background-color:#eee;
+}
+
+.page-controls a {
+    font-weight: bold;
+}
+
+.tap {
+    cursor: pointer;
+    width:100px;
+    height:100px;
+    display: inline-block;
+    margin: 0 10px 10px 0;
+    padding: 10px;
+    position: relative;
+    border-radius: 10px;
+}
+
+.tap a {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    font-size: 10px;
+    text-decoration: underline;
+}
+
+.tap-on-delegate {
+    background: #4CB8C4;
+    background: -webkit-linear-gradient(90deg, #4CB8C4 10%, #3CD3AD 90%);
+    background: -moz-linear-gradient(90deg, #4CB8C4 10%, #3CD3AD 90%);
+    background: -ms-linear-gradient(90deg, #4CB8C4 10%, #3CD3AD 90%);
+    background: -o-linear-gradient(90deg, #4CB8C4 10%, #3CD3AD 90%);
+    background: linear-gradient(90deg, #4CB8C4 10%, #3CD3AD 90%);
+}
+
+.tap-on {
+    background: #EB3349;
+    background: -webkit-linear-gradient(90deg, #EB3349 10%, #F45C43 90%);
+    background: -moz-linear-gradient(90deg, #EB3349 10%, #F45C43 90%);
+    background: -ms-linear-gradient(90deg, #EB3349 10%, #F45C43 90%);
+    background: -o-linear-gradient(90deg, #EB3349 10%, #F45C43 90%);
+    background: linear-gradient(90deg, #EB3349 10%, #F45C43 90%);
+}
+
+.tap-one-delegate {
+    background: #1D976C;
+    background: -webkit-linear-gradient(90deg, #1D976C 10%, #93F9B9 90%);
+    background: -moz-linear-gradient(90deg, #1D976C 10%, #93F9B9 90%);
+    background: -ms-linear-gradient(90deg, #1D976C 10%, #93F9B9 90%);
+    background: -o-linear-gradient(90deg, #1D976C 10%, #93F9B9 90%);
+    background: linear-gradient(90deg, #1D976C 10%, #93F9B9 90%);
+}
+
+.tap-one {
+    background: #FF8008;
+    background: -webkit-linear-gradient(90deg, #FF8008 10%, #FFC837 90%);
+    background: -moz-linear-gradient(90deg, #FF8008 10%, #FFC837 90%);
+    background: -ms-linear-gradient(90deg, #FF8008 10%, #FFC837 90%);
+    background: -o-linear-gradient(90deg, #FF8008 10%, #FFC837 90%);
+    background: linear-gradient(90deg, #FF8008 10%, #FFC837 90%);
+}
+
+.tap-delegate {
+    background: #16222A;
+    background: -webkit-linear-gradient(90deg, #16222A 10%, #3A6073 90%);
+    background: -moz-linear-gradient(90deg, #16222A 10%, #3A6073 90%);
+    background: -ms-linear-gradient(90deg, #16222A 10%, #3A6073 90%);
+    background: -o-linear-gradient(90deg, #16222A 10%, #3A6073 90%);
+    background: linear-gradient(90deg, #16222A 10%, #3A6073 90%);
+}
+
+.tap-bind {
+    background: #4776E6;
+    background: -webkit-linear-gradient(90deg, #4776E6 10%, #8E54E9 90%);
+    background: -moz-linear-gradient(90deg, #4776E6 10%, #8E54E9 90%);
+    background: -ms-linear-gradient(90deg, #4776E6 10%, #8E54E9 90%);
+    background: -o-linear-gradient(90deg, #4776E6 10%, #8E54E9 90%);
+    background: linear-gradient(90deg, #4776E6 10%, #8E54E9 90%);
+}
+
+.tap-disabled {
+    opacity: .3;
+    filter:alpha(opacity=30);
+    color: #444;
+    cursor: default;
+}
+
+.tap-disabled a {
+    display: none;
+}
+
+.log {
+    border: 1px solid #444;
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
