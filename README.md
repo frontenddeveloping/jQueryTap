@@ -14,37 +14,34 @@ This plugin works everywhere where jQuery 1.7+ works. This plugin created using 
 $('some_selector').on('tap', function () {/*your code here*/});
 $('some_selector').off('tap');
 $('some_selector').one('tap', function () {/*your code here*/});
-
 ```
 You can use all enabled event methods: on/off, bind/unbind, delegate/undelegate.
 
-Note! This plugin don't prevent click event. If you want to use tap on link and prevent click event use this:
+Note! This plugin don't prevent click:
 
 ```
 $('any_link').on('tap', function() {
   //let's open link in new window and use window.parent in it
   window.open(this.href);
 }).on('click', function () {
-  return false;//this will prevent the loading link
+  //this will fire and the page will load link
 });
 ```
 
-if you what to use tap event and prevent click at all(animation case) then user is taping use tapConfig:
+If you want to prevent click, use noclick namespace:
 
 ```
-var TAP_CONFIG = {
-    tapConfig : {
-        noClick : true,//plugin will disable click
-        noClickTime : 1000//time while click is disabled
-    }
-};
-$('some_selector').on('tap', TAP_CONFIG, function () {/*your code here*/});
-
+$('any_link').on('tap.noclick', function() {
+  //let's open link in new window and use window.parent in it
+  window.open(this.href);
+}).on('click', function () {
+  //this will never fire
+});
 ```
 
 Example page for device testing: http://jsbin.com/behaqa/
 
-QR code off example page:
+QR code of example page:
 
 ![QR code off example page](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=http%3A%2F%2Fjsbin.com%2Fbehaqa%2F&qzone=1&margin=0&size=200x200&ecc=L)
 
