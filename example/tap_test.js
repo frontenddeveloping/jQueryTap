@@ -1,5 +1,7 @@
 $(function () {
 
+    'use strict';
+
     var $TEST_AREA = $('.page-test-area'),
         $LOG = $('.log'),
         elementsOnPage = 1;
