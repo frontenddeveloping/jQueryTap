@@ -12,20 +12,52 @@ jQuery(function(){
 
     'use strict';
 
-    var HAS_TOUCH_EVENTS = 'ontouchstart' in document.documentElement,//iOS, Android
-        HAS_POINTER_EVENTS = window.navigator.pointerEnabled, //IE 11
-        HAS_MS_POINTER_EVENTS = window.navigator.msPointerEnabled, //IE 10
-        HAS_TOUCH = HAS_TOUCH_EVENTS || HAS_POINTER_EVENTS || HAS_MS_POINTER_EVENTS,
+    var
+        JQUERY_SPECIAL_EVENT_NAME = 'tap',
         CLICK_EVENT_NAME = 'click',
+        wasMoved = false,
+        HAS_TOUCH_EVENTS,
+        HAS_POINTER_EVENTS,
+        HAS_MS_POINTER_EVENTS,
+        IS_TOUCH_DEVICE,
+        HAS_TOUCH,
         START_EVENT_NAME,
         MOVE_EVENT_NAME,
-        END_EVENT_NAME = CLICK_EVENT_NAME,
-        JQUERY_SPECIAL_EVENT_NAME = 'tap',
-        $BODY = jQuery(document.body),
-        wasMoved = false,
+        END_EVENT_NAME,
+        $BODY,
+        // Make preventing function for shorter usage
         preventDefault = function (event) {
             event.preventDefault();
         };
+
+    function isMobile () {
+        return /Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Symbian|Opera\sM(obi|ini)|Blazer|Dolfin|Dolphin|UCBrowser/.test(navigator.userAgent)
+    }
+
+    // Some notebooks has touch and click, use click for it
+    // You can use outside $.useTapEvent flag for notify plugin use detecting touch events or not
+    if (jQuery.useTapEvent !== undefined) {
+        IS_TOUCH_DEVICE = jQuery.useTapEvent;
+    } else {
+        IS_TOUCH_DEVICE = isMobile();
+    }
+
+    if (!IS_TOUCH_DEVICE) {
+        return;
+    }
+
+    //iOS, Android
+    HAS_TOUCH_EVENTS = 'ontouchstart' in document.documentElement;
+    //IE 11
+    HAS_POINTER_EVENTS = window.navigator.pointerEnabled;
+    //IE 10
+    HAS_MS_POINTER_EVENTS = window.navigator.msPointerEnabled;
+    //has any "touch" events
+    HAS_TOUCH = HAS_TOUCH_EVENTS || HAS_POINTER_EVENTS || HAS_MS_POINTER_EVENTS;
+    //fallback to click
+    END_EVENT_NAME = CLICK_EVENT_NAME;
+    //Cache jQuery body object
+    $BODY = jQuery(document.body);
 
     if (HAS_TOUCH_EVENTS) {
         START_EVENT_NAME = 'touchstart';

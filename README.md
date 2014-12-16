@@ -39,6 +39,8 @@ $('any_link').on('tap.noclick', function() {
 });
 ```
 
+Also tap event do not fire for desktop browsers, because Microsoft, Lenovo notebooks and other have touch/pointer events. See source code for understanding how it works.
+
 Example page for device testing: http://jsbin.com/behaqa/
 
 QR code of example page:
