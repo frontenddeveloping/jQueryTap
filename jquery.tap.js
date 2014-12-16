@@ -31,7 +31,7 @@ jQuery(function(){
         };
 
     function isMobile () {
-        return /Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Symbian|Opera\sM(obi|ini)|Blazer|Dolfin|Dolphin|UCBrowser/.test(navigator.userAgent)
+        return /Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Symbian|Opera\sM(obi|ini)|Blazer|Dolfin|Dolphin|UCBrowser/.test(navigator.userAgent);
     }
 
     // Some notebooks has touch and click, use click for it
