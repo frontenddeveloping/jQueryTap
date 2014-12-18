@@ -91,9 +91,8 @@ jQuery(function(){
                     e.originalEvent.clientY.toFixed(0)
                 ];
                 wasMoved = (
-                Math.abs(msMoveCoords[0] - msStartCoords[0]) > MS_TOUCH_DELTA
-                &&
-                Math.abs(msMoveCoords[1] - msStartCoords[1]) > MS_TOUCH_DELTA
+                    Math.abs(msMoveCoords[0] - msStartCoords[0]) > MS_TOUCH_DELTA &&
+                    Math.abs(msMoveCoords[1] - msStartCoords[1]) > MS_TOUCH_DELTA
                 );
             } else {
                 wasMoved = true;
