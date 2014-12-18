@@ -1,20 +1,21 @@
 jQuery(function(){
 
     /*
-        Shot story:
-        There is a delay in 300 ms for events:
+         Shot story:
+         There is a delay in 300 ms for events:
          - between touchend and click for touchEvents
          - between pointerup and click for pointerEvents
-        First is affected for all major browsers, second for IE 10+ only.
-        But, Firefox for Android and Chrome For Android remove this delay if you add to viewport tag width=device-width value.
-        So tap event is necessary for Windows Phone 8+, iOS, Android Stock Browser 4.4-
-    */
+         First is affected for all major browsers, second for IE 10+ only.
+         But, Firefox for Android and Chrome For Android remove this delay if you add to viewport tag width=device-width value.
+         So tap event is necessary for Windows Phone 8+, iOS, Android Stock Browser 4.4-
+     */
 
     'use strict';
 
     var
         JQUERY_SPECIAL_EVENT_NAME = 'tap',
         CLICK_EVENT_NAME = 'click',
+        MS_TOUCH_DELTA = 10,
         wasMoved = false,
         HAS_TOUCH_EVENTS,
         HAS_POINTER_EVENTS,
@@ -25,6 +26,8 @@ jQuery(function(){
         MOVE_EVENT_NAME,
         END_EVENT_NAME,
         $BODY,
+        msStartCoords,
+        msMoveCoords,
         // Make preventing function for shorter usage
         preventDefault = function (event) {
             event.preventDefault();
@@ -42,41 +45,66 @@ jQuery(function(){
         IS_TOUCH_DEVICE = isMobile();
     }
 
-    if (!IS_TOUCH_DEVICE) {
-        return;
+    if (IS_TOUCH_DEVICE) {
+
+        //iOS, Android
+        HAS_TOUCH_EVENTS = 'ontouchstart' in document.documentElement;
+        //IE 11
+        HAS_POINTER_EVENTS = window.navigator.pointerEnabled;
+        //IE 10
+        HAS_MS_POINTER_EVENTS = window.navigator.msPointerEnabled;
+        //has any "touch" events
+        HAS_TOUCH = HAS_TOUCH_EVENTS || HAS_POINTER_EVENTS || HAS_MS_POINTER_EVENTS;
+
+        if (HAS_TOUCH_EVENTS) {
+            START_EVENT_NAME = 'touchstart';
+            MOVE_EVENT_NAME = 'touchmove';
+            END_EVENT_NAME = 'touchend';
+        } else if (HAS_POINTER_EVENTS) {
+            START_EVENT_NAME = 'pointerdown';
+            MOVE_EVENT_NAME = 'pointermove';
+            END_EVENT_NAME = 'pointerup';
+        } else if (HAS_MS_POINTER_EVENTS) {
+            START_EVENT_NAME = 'MSPointerDown';
+            MOVE_EVENT_NAME = 'MSPointerMove';
+            END_EVENT_NAME = 'MSPointerUp';
+        } else {
+            //fallback to click
+            END_EVENT_NAME = CLICK_EVENT_NAME;
+        }
+
+    } else {
+        //fallback to click
+        END_EVENT_NAME = CLICK_EVENT_NAME;
     }
 
-    //iOS, Android
-    HAS_TOUCH_EVENTS = 'ontouchstart' in document.documentElement;
-    //IE 11
-    HAS_POINTER_EVENTS = window.navigator.pointerEnabled;
-    //IE 10
-    HAS_MS_POINTER_EVENTS = window.navigator.msPointerEnabled;
-    //has any "touch" events
-    HAS_TOUCH = HAS_TOUCH_EVENTS || HAS_POINTER_EVENTS || HAS_MS_POINTER_EVENTS;
-    //fallback to click
-    END_EVENT_NAME = CLICK_EVENT_NAME;
     //Cache jQuery body object
     $BODY = jQuery(document.body);
 
-    if (HAS_TOUCH_EVENTS) {
-        START_EVENT_NAME = 'touchstart';
-        MOVE_EVENT_NAME = 'touchmove';
-        END_EVENT_NAME = 'touchend';
-    } else if (HAS_POINTER_EVENTS) {
-        START_EVENT_NAME = 'pointerdown';
-        MOVE_EVENT_NAME = 'pointermove';
-        END_EVENT_NAME = 'pointerup';
-    } else if (HAS_MS_POINTER_EVENTS) {
-        START_EVENT_NAME = 'MSPointerDown';
-        MOVE_EVENT_NAME = 'MSPointerMove';
-        END_EVENT_NAME = 'MSPointerUp';
-    }
-
     if (HAS_TOUCH) {
-        $BODY.on(MOVE_EVENT_NAME, function () {
-            wasMoved = true;
-        }).on(START_EVENT_NAME, function () {
+        $BODY.on(MOVE_EVENT_NAME, function (e) {
+            if (msStartCoords) {
+                //Pointer move event can fire without coords changing
+                //http://www.w3.org/TR/2014/WD-pointerevents-20141113/#the-pointermove-event
+                msMoveCoords = [
+                    e.originalEvent.clientX.toFixed(0),
+                    e.originalEvent.clientY.toFixed(0)
+                ];
+                wasMoved = (
+                Math.abs(msMoveCoords[0] - msStartCoords[0]) > MS_TOUCH_DELTA
+                &&
+                Math.abs(msMoveCoords[1] - msStartCoords[1]) > MS_TOUCH_DELTA
+                );
+            } else {
+                wasMoved = true;
+            }
+        }).on(START_EVENT_NAME, function (e) {
+            if (HAS_POINTER_EVENTS || HAS_MS_POINTER_EVENTS) {
+                msStartCoords = [
+                    e.originalEvent.clientX.toFixed(0),
+                    e.originalEvent.clientY.toFixed(0)
+                ];
+            }
             wasMoved = false;
         });
     }

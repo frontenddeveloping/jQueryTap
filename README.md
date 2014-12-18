@@ -4,7 +4,7 @@ jQueryTap
 This is a jQuery plugin which creates a click alternative tap event for touch enabled browsers.
 If touch is disabled tap event just become a click event.
 
-Works fine for: Android stock browser, Android Chrome, Android Firefox, Android Opera, Opera Mini, iOS Safari, IE Mobile
+Works fine for: Android 2+ stock browser, Android Chrome, Android Firefox, Android Opera, Opera Mini, iOS Safari, IE Mobile 10+
 
 This event is needed to prevent 300ms delay between touchend event and click events.
 
