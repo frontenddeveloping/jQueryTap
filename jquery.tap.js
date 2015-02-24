@@ -1,4 +1,4 @@
-jQuery(function(){
+(function(undefined){
 
     /*
          Shot story:
@@ -26,6 +26,7 @@ jQuery(function(){
         MOVE_EVENT_NAME,
         END_EVENT_NAME,
         $BODY,
+        timer,
         msStartCoords,
         msMoveCoords,
         // Make preventing function for shorter usage
@@ -118,7 +119,9 @@ jQuery(function(){
             var type = event.type,
                 data = event.data || {},
                 handleObj = event.handleObj,
-                noClick = handleObj.namespace === 'noclick',
+                eventNamespace = handleObj.namespace,
+                skipEventName = eventNamespace && eventNamespace.indexOf('no') === 0 && eventNamespace.slice(2),
+                targetNode,
                 result;
 
             if (!wasMoved) {
@@ -130,11 +133,21 @@ jQuery(function(){
                 //set back origin event type
                 event.type = type;
 
-                if (HAS_TOUCH && noClick) {
-                    $BODY.on(CLICK_EVENT_NAME, preventDefault);
-                    setTimeout(function () {
-                        $BODY.off(CLICK_EVENT_NAME, preventDefault);
+                targetNode = event.target;
+
+                if (HAS_TOUCH && skipEventName) {
+
+                    $BODY.add(targetNode).on(skipEventName, preventDefault);
+
+                    if (timer) {
+                        clearTimeout(timer);
+                    }
+
+                    timer = setTimeout(function () {
+                        $BODY.add(targetNode).off(skipEventName, preventDefault);
+                        targetNode = skipEventName = null;
                     }, 500);
+
                 }
 
                 //prevent memory leaks
@@ -148,4 +161,4 @@ jQuery(function(){
 
     };
 
-});
+}());
