@@ -57,11 +57,7 @@
         //has any "touch" events
         HAS_TOUCH = HAS_TOUCH_EVENTS || HAS_POINTER_EVENTS || HAS_MS_POINTER_EVENTS;
 
-        if (HAS_TOUCH_EVENTS) {
-            START_EVENT_NAME = 'touchstart';
-            MOVE_EVENT_NAME = 'touchmove';
-            END_EVENT_NAME = 'touchend';
-        } else if (HAS_POINTER_EVENTS) {
+        if (HAS_POINTER_EVENTS) {
             START_EVENT_NAME = 'pointerdown';
             MOVE_EVENT_NAME = 'pointermove';
             END_EVENT_NAME = 'pointerup';
@@ -69,6 +65,10 @@
             START_EVENT_NAME = 'MSPointerDown';
             MOVE_EVENT_NAME = 'MSPointerMove';
             END_EVENT_NAME = 'MSPointerUp';
+        } else if (HAS_TOUCH_EVENTS) {
+            START_EVENT_NAME = 'touchstart';
+            MOVE_EVENT_NAME = 'touchmove';
+            END_EVENT_NAME = 'touchend';
         } else {
             //fallback to click
             END_EVENT_NAME = CLICK_EVENT_NAME;
