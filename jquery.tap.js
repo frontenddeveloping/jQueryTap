@@ -70,7 +70,7 @@
             MOVE_EVENT_NAME = 'touchmove';
             END_EVENT_NAME = 'touchend';
         } else {
-            //fallback to click
+            // fallback to click
             END_EVENT_NAME = CLICK_EVENT_NAME;
         }
 
