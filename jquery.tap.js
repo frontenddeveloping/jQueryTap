@@ -48,13 +48,13 @@
 
     if (IS_TOUCH_DEVICE) {
 
-        //iOS, Android
+        // iOS, Android
         HAS_TOUCH_EVENTS = 'ontouchstart' in document.documentElement;
-        //IE 11
+        // IE 11
         HAS_POINTER_EVENTS = window.navigator.pointerEnabled;
-        //IE 10
+        // IE 10
         HAS_MS_POINTER_EVENTS = window.navigator.msPointerEnabled;
-        //has any "touch" events
+        // has any "touch" events
         HAS_TOUCH = HAS_TOUCH_EVENTS || HAS_POINTER_EVENTS || HAS_MS_POINTER_EVENTS;
 
         if (HAS_POINTER_EVENTS) {
@@ -75,22 +75,25 @@
         }
 
     } else {
-        //fallback to click
+        // fallback to click
         END_EVENT_NAME = CLICK_EVENT_NAME;
     }
 
-    //Cache jQuery body object
+    // Cache jQuery body object
     $BODY = jQuery(document.body);
 
     if (HAS_TOUCH) {
         $BODY.on(MOVE_EVENT_NAME, function (e) {
+            var origEvent = e.originalEvent,
+                // https://connect.microsoft.com/IE/feedback/details/810635/ie-11-clientx-and-clienty-not-working
+                // We just want to know is page position changed
+                x = origEvent.clientX || document.body.scrollLeft + document.documentElement.scrollLeft,
+                y = origEvent.clientY || document.body.scrollTop + document.documentElement.scrollTop;
+
             if (msStartCoords) {
-                //Pointer move event can fire without coords changing
-                //http://www.w3.org/TR/2014/WD-pointerevents-20141113/#the-pointermove-event
-                msMoveCoords = [
-                    e.originalEvent.clientX.toFixed(0),
-                    e.originalEvent.clientY.toFixed(0)
-                ];
+                // Pointer move event can fire without coords changing
+                // http://www.w3.org/TR/2014/WD-pointerevents-20141113/#the-pointermove-event
+                msMoveCoords = [x.toFixed(0), y.toFixed(0)];
                 wasMoved = (
                     Math.abs(msMoveCoords[0] - msStartCoords[0]) > MS_TOUCH_DELTA &&
                     Math.abs(msMoveCoords[1] - msStartCoords[1]) > MS_TOUCH_DELTA
@@ -99,11 +102,14 @@
                 wasMoved = true;
             }
         }).on(START_EVENT_NAME, function (e) {
+            var origEvent = e.originalEvent,
+                // https://connect.microsoft.com/IE/feedback/details/810635/ie-11-clientx-and-clienty-not-working
+                // We just want to know is page position changed
+                x = origEvent.clientX || document.body.scrollLeft + document.documentElement.scrollLeft,
+                y = origEvent.clientY || document.body.scrollTop + document.documentElement.scrollTop;
+
             if (HAS_POINTER_EVENTS || HAS_MS_POINTER_EVENTS) {
-                msStartCoords = [
-                    e.originalEvent.clientX.toFixed(0),
-                    e.originalEvent.clientY.toFixed(0)
-                ];
+                msMoveCoords = [x.toFixed(0), y.toFixed(0)];
             }
             wasMoved = false;
         });
@@ -126,11 +132,11 @@
 
             if (!wasMoved) {
 
-                //set event type as event name
+                // set event type as event name
                 event.type = JQUERY_SPECIAL_EVENT_NAME;
-                //call handler
+                // call handler
                 result = handleObj.handler.call(this, event);
-                //set back origin event type
+                // set back origin event type
                 event.type = type;
 
                 targetNode = event.target;
@@ -150,7 +156,7 @@
 
                 }
 
-                //prevent memory leaks
+                // prevent memory leaks
                 data = handleObj = null;
 
                 return result;
