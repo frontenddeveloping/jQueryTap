@@ -109,7 +109,7 @@
                 y = origEvent.clientY || document.body.scrollTop + document.documentElement.scrollTop;
 
             if (HAS_POINTER_EVENTS || HAS_MS_POINTER_EVENTS) {
-                msMoveCoords = [x.toFixed(0), y.toFixed(0)];
+                msStartCoords = [x.toFixed(0), y.toFixed(0)];
             }
             wasMoved = false;
         });
