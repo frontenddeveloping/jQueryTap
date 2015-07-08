@@ -18,7 +18,7 @@
         MS_TOUCH_DELTA = 10,
         uaLower = navigator.userAgent.toLowerCase(),
         IS_ANDROID_2 = uaLower.indexOf('android 2') > 0,
-        IS_IOS_OPERA_MINI_NO_COMPRESS = uaLower.indexOf('opios/') > 0
+        IS_IOS_OPERA_MINI_NO_COMPRESS = uaLower.indexOf('opios/') > 0,
         wasMoved = false,
         HAS_TOUCH_EVENTS,
         HAS_POINTER_EVENTS,
