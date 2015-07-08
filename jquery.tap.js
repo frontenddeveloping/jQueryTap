@@ -16,7 +16,9 @@
         JQUERY_SPECIAL_EVENT_NAME = 'tap',
         CLICK_EVENT_NAME = 'click',
         MS_TOUCH_DELTA = 10,
-        IS_ANDROID_2 = navigator.userAgent.indexOf('Android 2') > 0,
+        uaLower = navigator.userAgent.toLowerCase(),
+        IS_ANDROID_2 = uaLower.indexOf('android 2') > 0,
+        IS_IOS_OPERA_MINI_NO_COMPRESS = uaLower.indexOf('opios/') > 0
         wasMoved = false,
         HAS_TOUCH_EVENTS,
         HAS_POINTER_EVENTS,
@@ -50,7 +52,7 @@
     if (IS_TOUCH_DEVICE) {
 
         // iOS, Android, Android 2 has broken setTimeout
-        HAS_TOUCH_EVENTS = 'ontouchstart' in document.documentElement && !IS_ANDROID_2;
+        HAS_TOUCH_EVENTS = 'ontouchstart' in document.documentElement && !IS_ANDROID_2 && !IS_IOS_OPERA_MINI_NO_COMPRESS;
         // IE 11
         HAS_POINTER_EVENTS = window.navigator.pointerEnabled;
         // IE 10
